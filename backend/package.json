@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "echo 'API has no compile step — dependencies installed.'",
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage"
