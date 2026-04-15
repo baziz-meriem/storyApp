@@ -8,7 +8,8 @@ const app = createApp();
 async function main() {
   await connectDb();
   app.listen(port, () => {
-    console.log(`Little Stories API listening on http://localhost:${port}`);
+    // Bind address is implicit (all interfaces). Render/proxies route public HTTPS to this port.
+    console.log(`Little Stories API listening on port ${port}`);
   });
 }
 
