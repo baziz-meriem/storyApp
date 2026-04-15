@@ -1,8 +1,9 @@
 import axios from 'axios'
+import { API_BASE_URL } from '@/config/api'
 import { useAuthStore } from '@/store/authStore'
 import type { Patch, Project, PublicProject, User } from '@/types/project'
 
-const baseURL = import.meta.env.VITE_API_URL ?? ''
+const baseURL = API_BASE_URL
 
 export const api = axios.create({
   baseURL,
@@ -78,11 +79,10 @@ export async function createCheckoutSession(successUrl?: string, cancelUrl?: str
 
 /** Multipart upload — uses fetch so the browser sets the boundary (axios default JSON header breaks this). */
 export async function uploadImage(file: File): Promise<{ url: string; filename: string }> {
-  const baseURL = import.meta.env.VITE_API_URL ?? ''
   const token = useAuthStore.getState().token
   const form = new FormData()
   form.append('image', file)
-  const res = await fetch(`${baseURL}/upload/single`, {
+  const res = await fetch(`${API_BASE_URL}/upload/single`, {
     method: 'POST',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body: form,

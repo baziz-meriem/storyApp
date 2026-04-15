@@ -1,6 +1,8 @@
+import { API_BASE_URL } from '@/config/api'
+
 /**
  * Patch image `content` may be an absolute URL, a data URL, or a path like `/uploads/...`
- * from this API (served via dev proxy or production API host).
+ * from this API.
  */
 export function resolveMediaUrl(content: string): string {
   if (!content) return ''
@@ -13,8 +15,8 @@ export function resolveMediaUrl(content: string): string {
     return content
   }
   if (content.startsWith('/')) {
-    const base = import.meta.env.VITE_API_URL?.replace(/\/$/, '') ?? ''
-    return base ? `${base}${content}` : content
+    const base = API_BASE_URL.replace(/\/$/, '')
+    return `${base}${content}`
   }
   return content
 }
