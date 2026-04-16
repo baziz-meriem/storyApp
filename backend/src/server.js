@@ -6,6 +6,12 @@ const port = Number(process.env.PORT) || 4000;
 const app = createApp();
 
 async function main() {
+  if (!process.env.JWT_SECRET?.trim()) {
+    console.error(
+      'FATAL: JWT_SECRET is not set. Add it in Render → Environment (e.g. run: openssl rand -hex 32).'
+    );
+    process.exit(1);
+  }
   await connectDb();
   app.listen(port, () => {
     // Bind address is implicit (all interfaces). Render/proxies route public HTTPS to this port.

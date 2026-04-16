@@ -16,10 +16,17 @@ export function errorHandler(err, req, res, next) {
   if (process.env.NODE_ENV !== 'production') {
     console.error(err);
   } else {
-    console.error(message);
+    console.error('[API Error]', status, err.message);
+    if (err.stack) console.error(err.stack);
   }
+  const safeClientMessage =
+    status >= 500
+      ? process.env.NODE_ENV !== 'production'
+        ? message
+        : 'Internal Server Error'
+      : message;
   res.status(status).json({
-    error: status >= 500 ? 'Internal Server Error' : message,
+    error: safeClientMessage,
     ...(process.env.NODE_ENV !== 'production' && err.stack ? { stack: err.stack } : {}),
   });
 }
